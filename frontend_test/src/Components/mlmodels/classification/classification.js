@@ -1,12 +1,54 @@
 import "antd/dist/antd.css"
-import { useState } from 'react';
-import {Typography} from 'antd'
+import { useState,useEffect } from 'react';
+import {Typography,Button} from 'antd'
 import dataimg from "./data.png"
 import Img_upload from "../img_upload";
-
+import { Select } from 'antd';
+import Classlist from "./classlist"
+import * as mobileNet from "@tensorflow-models/mobilenet"
+import * as tf from "@tensorflow/tfjs";
+const { Option } = Select;
 const {Title, Text} = Typography
 
 function Classification(props){
+    const [topclass, setTopclass] = useState("3")
+    const Selecttopclass = (value)=>{
+        setTopclass(value)
+    }
+    const [model, setModel] = useState()
+    const [modelready, setModelready] = useState(false)
+    const [result,setResult] = useState([])
+    async function loadModel() {
+        try {
+          const model = await mobileNet.load();
+          setModel(model);
+          setModelready(true)
+          console.log("setloadedModel");
+        } catch (err) {
+          console.log(err);
+          console.log("failed load model");
+          setModelready(false)
+        }
+    }
+
+    useEffect(() => {
+        tf.ready().then(() => {loadModel()});
+    }, []);
+
+    const Predict=async()=>{
+        const predictions = await model.classify(document.getElementById("target_img"),parseInt(topclass,10))
+        // console.log(predictions[0].className)
+        // console.log(predictions[0].probability)
+        let tmp = []
+        for (let i=0;i<predictions.length;i++){
+            // console.log(i)
+            // console.log(tmp)
+            tmp = [...tmp,{key: `${i+1}`,classname: predictions[i].className, probability: predictions[i].probability}]
+        }
+        setResult(tmp)
+        // return {classes: predictions[0].className}
+    }
+
     return(
         <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
             <Title>Image Classification</Title>
@@ -18,9 +60,21 @@ function Classification(props){
             </Title>
             <Title level = {2} style = {{textIndent: "2em" }}>How to Use?</Title>
             <Title level = {2} style = {{textIndent: "2em" }}>Try!</Title>
-            <div style={{paddingLeft: 80}}>
-                <Img_upload/>
+            <div style={{display: "flex", paddingLeft: 80, alignItems: "center"}} >
+                <Title level = {4}>Get top</Title>
+                <Select defaultValue={topclass} style={{ width: 120,marginLeft: 15,marginRight: 15 }} onChange={Selecttopclass}>
+                    <Option value="1">1</Option>
+                    <Option value="2">2</Option>
+                    <Option value="3">3</Option>
+                    <Option value="4">4</Option>
+                    <Option value="5">5</Option>
+                </Select>
+                <Title level = {4}>predictions. (Return the class names with the largest {topclass} likelihood.)</Title>
             </div>
+            <div style={{paddingLeft: 80, display: "flex", alignItems: "center"}}>
+                <Img_upload modelready={modelready} Predict={Predict}/>
+            </div>
+            <Classlist result={result}/>
         </div>
     )
 }
