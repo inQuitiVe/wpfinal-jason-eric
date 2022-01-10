@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Table, Radio, Divider, Button } from 'antd';
 const columns = [
   {
@@ -18,17 +18,18 @@ const Classlist = (props) => {
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            setIsselected(true)
+            props.setSelectedrowkeys(selectedRowKeys)
         },
+        selectedRowKeys: props.selectedRowKeys
         //   getCheckboxProps: (record) => ({
         //     disabled: record.name === 'Disabled User',
         //     // Column configuration not to be checked
         //     name: record.name,
         //   }),
-    };
-    const [isselected,setIsselected] = useState(false)
+    }
+
     const handlesave=()=>{
-        if(props.result.length === 0 || isselected === false)return true
+        if(props.result.length === 0 || props.selectedRowKeys.length === 0)return true
         else return false
     }
     return (

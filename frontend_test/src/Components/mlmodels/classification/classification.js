@@ -11,6 +11,7 @@ const { Option } = Select;
 const {Title, Text} = Typography
 
 function Classification(props){
+    const [selectedRowKeys,setSelectedrowkeys] = useState([])
     const [topclass, setTopclass] = useState("3")
     const Selecttopclass = (value)=>{
         setTopclass(value)
@@ -46,6 +47,7 @@ function Classification(props){
             tmp = [...tmp,{key: `${i+1}`,classname: predictions[i].className, probability: predictions[i].probability}]
         }
         setResult(tmp)
+        setSelectedrowkeys([])
         // return {classes: predictions[0].className}
     }
 
@@ -74,7 +76,7 @@ function Classification(props){
             <div style={{paddingLeft: 80, display: "flex", alignItems: "center"}}>
                 <Img_upload modelready={modelready} Predict={Predict}/>
             </div>
-            <Classlist result={result}/>
+            <Classlist result={result} selectedRowKeys={selectedRowKeys} setSelectedrowkeys={setSelectedrowkeys}/>
         </div>
     )
 }
