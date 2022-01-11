@@ -1,4 +1,4 @@
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu, Breadcrumb, Transfer } from 'antd';
 import {
   BrowserRouter as Router,
   Routes,
@@ -15,10 +15,10 @@ import {
 } from '@ant-design/icons';
 import "antd/dist/antd.css"
 import { useState } from 'react';
-//import Models from './Components/models';
 
 import Classification from "./Components/mlmodels/classification/classification";
 import Overview from "./Components/mlmodels/overview/overview";
+import TransferKnn from './Components/mlmodels/transferlearning/transfer';
 
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
@@ -195,12 +195,12 @@ function Applayout (){
             </Menu.Item>
             <SubMenu key="sub2" icon={<RocketOutlined />} title="Models">
               <Menu.Item key="6">
-                <Link to = "/Classification">
+                <Link to = "/classification">
                   Classification
                 </Link>
               </Menu.Item>
               <Menu.Item key="8">
-                <Link to = "/Transformation">Tranformation</Link>
+                <Link to = "/transfer">Tranfer Learning</Link>
               </Menu.Item>
             </SubMenu>
             {/* <Menu.Item key="9" icon={<FileOutlined />}>
@@ -223,6 +223,7 @@ function Applayout (){
           <Routes>
             <Route path="/" element={<Overview/>}></Route>
             <Route path="/classification" element={<Classification/>}></Route>
+            <Route path="/transfer" element={<TransferKnn/>}></Route>
           </Routes>
         
       </Layout>
