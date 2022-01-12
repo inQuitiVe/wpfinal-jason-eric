@@ -1,6 +1,6 @@
 import "antd/dist/antd.css"
 import { useState,useEffect } from 'react';
-import {Typography,Button,Divider} from 'antd'
+import {Typography,Button,Divider,message} from 'antd'
 import { Select } from 'antd';
 import * as mobileNet from "@tensorflow-models/mobilenet"
 import * as tf from "@tensorflow/tfjs";
@@ -18,8 +18,20 @@ function TransferKnn(props){
     const [classimg2, setClassimg2] = useState([])
     const [classimg3, setClassimg3] = useState([])
     const [currentclass, setCurrentclass] = useState('1')
-    const [classifier, setClassifier] = useState()
-    const [webcam, setWebcam] = useState()
+    // const [classifier, setClassifier] = useState()
+    // const [webcam, setWebcam] = useState()
+    const [intervalId, setIntervalId] = useState(0);
+    const handleClick = (classifier,webcam,key) => {
+        if (intervalId) {
+        clearInterval(intervalId);
+        setIntervalId(0);
+        message.warning({ content: 'Stop', key, duration: 1 })
+        return;
+        }
+        message.success({ content: 'Start!', key, duration: 1 })
+        const newIntervalId = setInterval(()=>Capturepredict(classifier,webcam), 1000);
+        setIntervalId(newIntervalId);
+    };
     const [k, setK] = useState('3')
     const Selectk = (value)=>{
         setK(value)
@@ -34,6 +46,7 @@ function TransferKnn(props){
           setModel(model);
           setModelready(true)
           console.log("setloadedModel");
+          message.success("The Model is Ready!",1)
         } catch (err) {
           console.log(err);
           console.log("failed load model");
@@ -46,7 +59,7 @@ function TransferKnn(props){
     }, []);
 
 
-    const Predict=async(webcam)=>{
+    const Predict=async(webcam,key)=>{
         const classifier = await knnClassifier.create();
         for(let i=0;i<classimg1.length;i++){
             classifier.addExample(model.infer(classimg1[i], true), 0);
@@ -57,9 +70,10 @@ function TransferKnn(props){
         for(let i=0;i<classimg3.length;i++){
             classifier.addExample(model.infer(classimg3[i], true), 2);
         }
-        await setClassifier(classifier)
-        await setWebcam(webcam)
-        Capturepredict(classifier,webcam)
+        // await setClassifier(classifier)
+        // await setWebcam(webcam)
+        
+        handleClick(classifier,webcam,key)
         // setTimeout(() => Capturepredict(classifier,webcam), 500)
     }
 
@@ -124,7 +138,7 @@ function TransferKnn(props){
                 classimg1={classimg1} setClassimg1={setClassimg1}
                 classimg2={classimg2} setClassimg2={setClassimg2}
                 classimg3={classimg3} setClassimg3={setClassimg3} Predict={Predict}
-                result={result} probability={probability}></ClassTab>
+                result={result} probability={probability} intervalId={intervalId}></ClassTab>
             </div>
         </div>
     )

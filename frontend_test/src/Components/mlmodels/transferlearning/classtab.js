@@ -1,4 +1,4 @@
-import { Tabs, Radio,Input, Button } from 'antd';
+import { Tabs, Radio,Input, Button,message } from 'antd';
 import * as tf from "@tensorflow/tfjs";
 import "antd/dist/antd.css"
 const { Search } = Input
@@ -16,12 +16,15 @@ function ClassTab(props){
     const Clearimg = ()=>{
         if(props.currentclass==='1'){
             props.setClassimg1([])
+            message.success(`Class ${props.tabname1} Data Cleared`,1)
         }
         else if(props.currentclass==='2'){
             props.setClassimg2([])
+            message.success(`Class ${props.tabname2} Data Cleared`,1)
         }
         else if(props.currentclass==='3'){
             props.setClassimg3([])
+            message.success(`Class ${props.tabname3} Data Cleared`,1)
         }
     }
 
@@ -29,15 +32,24 @@ function ClassTab(props){
         const img = await (await webcam1).capture();
         if(props.currentclass==='1'){
             props.setClassimg1([...props.classimg1,img])
+            message.success(`Add Data to Class ${props.tabname1} ( ${props.classimg1.length+1} images in total )`,1)
             // console.log(img)
-            console.log(props.classimg1)
+            // console.log(props.classimg1)
         }
-        else if(props.currentclass==='2')props.setClassimg2([...props.classimg2,img])
-        else if(props.currentclass==='3')props.setClassimg3([...props.classimg3,img])
+        else if(props.currentclass==='2'){
+            props.setClassimg2([...props.classimg2,img])
+            message.success(`Add Data to Class ${props.tabname2} ( ${props.classimg2.length+1} images in total )`,1)
+        }
+        else if(props.currentclass==='3'){
+            props.setClassimg3([...props.classimg3,img])
+            message.success(`Add Data to Class ${props.tabname3} ( ${props.classimg3.length+1} images in total )`,1)
+        }
     }
 
+    const key = 'prdt'
     const Handlestart = async()=>{
-        props.Predict(await webcam1)
+        message.loading({ content: 'Loading...', key })
+        props.Predict(await webcam1,key)
     }
 
     return (
@@ -59,8 +71,8 @@ function ClassTab(props){
             <video autoplay playsinline muted id="webcam1" width="224" height="224"></video>
             {props.currentclass==='4'?
             <div style={{display: "flex", flexDirection: "column", justifyContent: "center", marginLeft: 20}}>
-                <Button type="primary" onClick={Handlestart}>Predict!</Button>
-                <h4>Class: {props.result}</h4>
+                <Button type="primary" onClick={Handlestart}>{props.intervalId?'Stop':"Start"}</Button>
+                <h4 style={{marginTop: 10}}>Class: {props.result}</h4>
                 <h4>Probability: {props.probability}</h4>
             </div>
             :<div style={{display: "flex", flexDirection: "column", justifyContent: "center", marginLeft: 20}}>
