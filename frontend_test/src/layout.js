@@ -34,6 +34,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Logo from './logo.png';
+import HandPose from './Components/mlmodels/mphand/mphand';
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -202,6 +203,9 @@ function Applayout (){
               <Menu.Item key="8">
                 <Link to = "/transfer">Tranfer Learning</Link>
               </Menu.Item>
+              <Menu.Item key="9">
+                <Link to = "/handposedetection">Hand Pose Detection</Link>
+              </Menu.Item>
             </SubMenu>
             {/* <Menu.Item key="9" icon={<FileOutlined />}>
               <Link to = "/Files">Files</Link>
@@ -224,6 +228,7 @@ function Applayout (){
             <Route path="/" element={<Overview/>}></Route>
             <Route path="/classification" element={<Classification/>}></Route>
             <Route path="/transfer" element={<TransferKnn/>}></Route>
+            <Route path="/handposedetection" element={<HandPose/>}></Route>
           </Routes>
         
       </Layout>
