@@ -5,7 +5,7 @@ import Applayout from "./layout.js"
 function App(){
   return(
     <div style={{float: true}}>
-    <AppBar/>
+    {/* <AppBar/> */}
     <Applayout/>
     </div>
   )}

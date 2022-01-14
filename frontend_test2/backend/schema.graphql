@@ -1,0 +1,29 @@
+scalar Upload
+
+type Task {
+    id : ID!
+    class : String!
+    num : Int!
+    image : String!
+    text : [String!]
+    prob : [Float!]
+}
+
+type User {
+    id : ID!
+    task : [Task!]
+    name : String!
+}
+
+
+type Query {
+    getUserFile(id:ID! name : String!, TaskClass : String!,): [Task!] 
+}
+
+type Mutation {
+    createFile(user : String!, class : String!, num : Int!, image: String!, text : [String!], prob:[Float!]) : Task!
+    deleteFile(id : String!) : ID!
+}
+
+
+

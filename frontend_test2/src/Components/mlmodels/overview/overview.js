@@ -2,7 +2,7 @@ import "antd/dist/antd.css"
 import { useState } from 'react';
 import {Typography, Divider} from 'antd'
 import dataimg from "./data.png"
-import Img_upload from "../img_upload";
+import ImgUpload from "../img_upload";
 
 
 const {Title, Text} = Typography
@@ -21,7 +21,7 @@ function Overview(props){
             <Title level = {2} >How to Use?</Title>
             <Title level = {2} >Try!</Title>
             <div style={{paddingLeft: 80}}>
-                <Img_upload/>
+                <ImgUpload/>
             </div>
         </div>
     )
