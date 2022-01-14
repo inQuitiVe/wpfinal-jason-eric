@@ -7,10 +7,6 @@ import { Select } from 'antd';
 import Classlist from "./classlist"
 import * as mobileNet from "@tensorflow-models/mobilenet"
 import * as tf from "@tensorflow/tfjs";
-import {
-    CREATE_FILE_MUTATION,
-  } from "../../../graphql";
-
 const { Option } = Select;
 const {Title, Text} = Typography
 

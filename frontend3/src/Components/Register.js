@@ -5,6 +5,7 @@ import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 
 
+
 const required = (value) => {
   if (!value) {
     return (
@@ -76,7 +77,7 @@ const Register = (props) => {
 
   return (
     <div className="col-md-12">
-      <div className="card card-container">
+      <div className="card card-container" style={{maxWidth:"20%",left:"30%",minWidth:100,top:20}}>
         <img
           src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
           alt="profile-img"

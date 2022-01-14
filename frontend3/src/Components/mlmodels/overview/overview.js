@@ -5,7 +5,6 @@ import dataimg from "./data.png"
 import ImgUpload from "../img_upload";
 
 
-
 const {Title, Text} = Typography
 
 function Overview(props){

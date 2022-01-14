@@ -17,12 +17,12 @@ type User {
 
 
 type Query {
-    getUserFile(id:ID! name : String!, TaskClass : String!,): [Task!] 
+    getUserFile(name : String!, class : String!,): [Task!] 
 }
 
 type Mutation {
-    createFile(user : String!, class : String!, num : Int!, image: String!, text : [String!], prob:[Float!]) : Task!
-    deleteFile(id : String!) : ID!
+    createFile(user : String!, class : String!, num : Int!, image: Upload!, text : [String!], prob:[Float!]) : Task!
+    deleteFile(id : ID!) : ID!
 }
 
 

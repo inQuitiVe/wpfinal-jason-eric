@@ -2,7 +2,8 @@ import shortid from 'shortid'
 import { createWriteStream } from 'fs'
 
 const storeUpload = async ({ stream, filename })=> {
-  const path = `images/${shortid.generate}`
+  const id = shortid.generate()
+  const path = `images/${id}`
   const result = Promise.any(
     new Promise((resolve, reject) =>
     stream
@@ -14,7 +15,7 @@ const storeUpload = async ({ stream, filename })=> {
 }
 
 const processUpload = async upload => {
-  const { stream, filename, mimetype, encoding } = await upload
+  const {stream, filename, mimetype, encoding} = await upload
   const {path} = await storeUpload({ stream, filename })
   return path
 }
@@ -34,7 +35,8 @@ const Mutation = {
     user.save()
   },
   async deleteFile(parent, args, { db, pubsub }, info) {
-
+    const target = db.Task.findOneAndDelete({id:args.id})
+    return target.id
   },
 };
 

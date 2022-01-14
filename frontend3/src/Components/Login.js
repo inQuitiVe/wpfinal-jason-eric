@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const required = (value) => {
   if (!value) {
@@ -39,7 +39,7 @@ const Login = (props) => {
 
   return (
     <div className="col-md-12">
-      <div className="card card-container">
+      <div className="card card-container " style={{maxWidth:"20%",left:"30%",minWidth:100,top:20}}>
         <img
           src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
           alt="profile-img"

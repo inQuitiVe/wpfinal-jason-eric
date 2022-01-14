@@ -3,7 +3,7 @@ const Query = {
         let result = [];
         const user = await db.User.find({username:args.name})
         result = user.map(async(task) => {
-            return await db.Task.find({id:task.id})
+            return await db.Task.find({id:task.id,class:args.class})
         })
         return result
     },

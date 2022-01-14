@@ -1,10 +1,10 @@
-import { Layout, Menu, Breadcrumb} from 'antd';
+import { Layout, Menu, Breadcrumb, Transfer } from 'antd';
 import {
+  BrowserRouter as Router,
   Routes,
   Route,
   Link
 } from "react-router-dom";
-
 // import "bootstrap/dist/css/bootstrap.min.css";
 import {
   DesktopOutlined,
@@ -14,14 +14,13 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import "antd/dist/antd.css"
-import React, { useState, useEffect } from "react";
+import { useState } from 'react';
 
-import Login from "./Components/Login";
-import Register from "./Components/Register";
 import Classification from "./Components/mlmodels/classification/classification";
 import Overview from "./Components/mlmodels/overview/overview";
 import TransferKnn from './Components/mlmodels/transferlearning/transfer';
 
+import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -35,6 +34,12 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Logo from './logo.png';
+import HandPose from './Components/mlmodels/mphand/mphand';
+import BodyPose from './Components/mlmodels/mpbody/mpbody';
+import FaceMesh from './Components/mlmodels/mpface/mpface';
+import File from './Components/File';
+import Login from './Components/Login';
+import Register from './Components/Register';
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -43,18 +48,12 @@ const { SubMenu } = Menu;
 
 
 
-const pages = ['Models', 'File'];
-
-
 function Applayout (){
     const [collapsed, setCollapsed] = useState(false)
-    //const [login,setlogin] = useState(false)
-    const [currentUser, setCurrentUser] = useState(undefined);
-    
     //const [mlModel, setMLModel] = useState("classification")
-
-    //const settings = login?['Profile', 'Logout']:['Profile', 'Login'];
-
+    const [currentuser, setuser] = useState(undefined)
+    //const settings = currentuser ? ['Logout'] : ['Login','Register'];
+    //const pages = currentuser ? ['Models', 'File'] : ['Models'];
     const OnCollapse = (collapsed) => {
         // console.log(collapsed);
         if(collapsed === false){
@@ -67,7 +66,10 @@ function Applayout (){
         }
     };
 
-    
+    const logOut = () =>{
+
+    }
+
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -89,7 +91,8 @@ function Applayout (){
 
 
     return (
-      <>
+    <Router>
+      
       <AppBar position="static" /*style={{float: true}}*/>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -113,7 +116,6 @@ function Applayout (){
               >
                 <MenuIcon />
               </IconButton>
-
               <MenuMui
                 id="menu-appbar"
                 anchorEl={anchorElNav}
@@ -132,16 +134,38 @@ function Applayout (){
                   display: { xs: 'block', md: 'none' },
                 }}
               >
-                {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Link to = '/' textalign="center">{page}</Link>
-                  </MenuItem>
-                ))}
+            {currentuser ? (
+                    <div>
+                      <Link to = '/' textAlign="center"><Button
+                        key="Models"
+                        onClick={handleCloseNavMenu}
+                        sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                        Models
+                        </Button>
+                      </Link>
+                      <Link to = '/Files' textAlign="center"><Button
+                        key="Models"
+                        onClick={handleCloseNavMenu}
+                        sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                        Files
+                        </Button>
+                      </Link>
+                    </div>
+                  ) : (
+                    <div>
+                      <Link to = '/' textAlign="center"><Button
+                        key="Models"
+                        onClick={handleCloseNavMenu}
+                        sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                        Models
+                        </Button>
+                      </Link>
+                    </div>
+                  )}
               </MenuMui>
-
-        
-
-
             </Box>
             <Typography
               variant="h6"
@@ -153,16 +177,39 @@ function Applayout (){
               <img src = {Logo} alt='LOGOO' style={{width:40, maxWidth: "15vw"}}></img>
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map((page) => (
-                <Link to = '/' textalign="center"><Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  {page}
-                </Button>
-                </Link>
-              ))}
+            {currentuser ? (
+                    <div>
+                      <Link to = '/' textAlign="center"><Button
+                        key="Models"
+                        onClick={handleCloseNavMenu}
+                        sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                        Models
+                        </Button>
+                      </Link>
+                      <Link to = '/Files' textAlign="center"><Button
+                        key="Models"
+                        onClick={handleCloseNavMenu}
+                        sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                        Files
+                        </Button>
+                      </Link>
+                    </div>
+                  ) : (
+                    <div>
+                      <Link to = '/' textAlign="center"><Button
+                        key="Models"
+                        onClick={handleCloseNavMenu}
+                        sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                        Models
+                        </Button>
+                      </Link>
+                    </div>
+                  )}
+              
+
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
@@ -187,25 +234,16 @@ function Applayout (){
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {/* {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">
-                      <Link to = {'./'+setting}>{setting}</Link>
-                    </Typography>
-                  </MenuItem>
-                ))} */}
-                {currentUser ? (
+                {currentuser ? (
                     <div>
-                    <MenuItem key="/profile" onClick={handleCloseNavMenu}>
-                        <Link to={"/profile"} className="nav-link">
-                          {currentUser.username}
+                      <MenuItem key="/profile" onClick={handleCloseNavMenu}>
+                            {currentuser.username}
+                      </MenuItem>
+                      <MenuItem key="/logout" onClick={handleCloseNavMenu}>
+                        <Link to={"/login"} className="nav-link">
+                            Logout
                         </Link>
-                    </MenuItem>
-                    <MenuItem key="/logout" onClick={handleCloseNavMenu}>
-                      <a href="/login" className="nav-link" onClick={logOut}>
-                        LogOut
-                      </a>
-                    </MenuItem>
+                      </MenuItem>
                     </div>
                   ) : (
                     <div>
@@ -217,7 +255,7 @@ function Applayout (){
 
                     <MenuItem key="/register" onClick={handleCloseNavMenu}>
                         <Link to={"/register"} className="nav-link">
-                          Sign Up
+                          Register
                         </Link>
                     </MenuItem>
                     </div>
@@ -234,9 +272,9 @@ function Applayout (){
             <Menu.Item key="1" icon={<PieChartOutlined />}>
               <Link to = "/">Overview</Link>
             </Menu.Item>
-            {/* <Menu.Item key="2" icon={<DesktopOutlined />}>
+            <Menu.Item key="2" icon={<DesktopOutlined />}>
               <Link to = "/QuickStart">Quick Start</Link>
-            </Menu.Item> */}
+            </Menu.Item>
             <SubMenu key="sub2" icon={<RocketOutlined />} title="Models">
               <Menu.Item key="6">
                 <Link to = "/classification">
@@ -245,6 +283,15 @@ function Applayout (){
               </Menu.Item>
               <Menu.Item key="8">
                 <Link to = "/transfer">Tranfer Learning</Link>
+              </Menu.Item>
+              <Menu.Item key="9">
+                <Link to = "/handposedetection">Hand Pose Detection</Link>
+              </Menu.Item>
+              <Menu.Item key="10">
+                <Link to = "/bodyposeestimation">Body Pose Estimation</Link>
+              </Menu.Item>
+              <Menu.Item key="11">
+                <Link to = "/facemesh">Face Mesh</Link>
               </Menu.Item>
             </SubMenu>
             {/* <Menu.Item key="9" icon={<FileOutlined />}>
@@ -257,7 +304,7 @@ function Applayout (){
           <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>User</Breadcrumb.Item>
-              <Breadcrumb.Item>Bill</Breadcrumb.Item>
+              <Breadcrumb.Item>{currentuser}</Breadcrumb.Item>
             </Breadcrumb>
             {/* <Models mlModel = {mlModel}></Models> */}
           </Content>
@@ -268,12 +315,16 @@ function Applayout (){
             <Route path="/" element={<Overview/>}></Route>
             <Route path="/classification" element={<Classification/>}></Route>
             <Route path="/transfer" element={<TransferKnn/>}></Route>
-            <Route path="/Login" element={<Login/>}></Route>
-            <Route path="/Register" element={<Register/>}></Route>
+            <Route path="/handposedetection" element={<HandPose/>}></Route>
+            <Route path="/bodyposeestimation" element={<BodyPose/>}></Route>
+            <Route path="/facemesh" element={<FaceMesh/>}></Route>
+            <Route path="/login" element={<Login/>}></Route>
+            <Route path="/register" element={<Register/>}></Route>
+            <Route path="/file" element={<File/>}></Route>
           </Routes>
         
       </Layout>
-        </>
+      </Router>
     );
 }
 

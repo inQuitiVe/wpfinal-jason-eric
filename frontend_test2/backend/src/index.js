@@ -1,4 +1,4 @@
-//import express from "express";
+import express from "express";
 //import { ApolloServer, PubSub } from "apollo-server-express";
 import { GraphQLServer, PubSub } from 'graphql-yoga';
 //import { importSchema } from "graphql-import";
@@ -15,13 +15,17 @@ import Mutation from "../resolvers/Mutation.js";
 //import Subscription from "./resolvers/Subscription.js";
 import mongo from "./mongo.js";
 //import apiRoute from "./route/api.js";
+import {
+  GraphQLUpload,
+  graphqlUploadExpress, // A Koa implementation is also exported.
+} from 'graphql-upload';
 
 //const __dirname = dirname(fileURLToPath(import.meta.url));
 //const port = process.env.PORT || 80;
 console.log(process.env.MONGO_URL);
 //const typeDefs = importSchema("./schema.graphql");
 const pubsub = new PubSub();
-// const app = express();
+
 
 // app.use(cors());
 // //app.use("/api", apiRoute);
@@ -32,9 +36,12 @@ const pubsub = new PubSub();
 //   res.sendFile(path.join(__dirname, "build", "index.html"));
 // });
 
+
 const server = new GraphQLServer({
   typeDefs: './backend/schema.graphql',
+  
   resolvers: {
+      Upload: GraphQLUpload,
       Query,
       Mutation,
       //Subscription,
@@ -74,3 +81,11 @@ server.start({ port: process.env.PORT | 5000 }, () => {
 });
 
 
+// const app = express();
+// app.use(graphqlUploadExpress());
+
+//   server.applyMiddleware({ app });
+
+//   await new Promise(r => app.listen({ port: 4000 }, r));
+
+//   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
