@@ -7,6 +7,8 @@ import * as tf from "@tensorflow/tfjs";
 import dataimg from "./data1.jpeg"
 import ClassTab from "./classtab"
 import * as knnClassifier from "@tensorflow-models/knn-classifier"
+import use1 from './transfer1-1.png'
+import use2 from './transfer2-1.png'
 const { Option } = Select;
 const {Title, Text} = Typography
 
@@ -119,6 +121,12 @@ function TransferKnn(props){
                 </div>
             </Title>
             <Title level = {2} >How to Use?</Title>
+            <div>
+                <img src = {use1} alt = "IMG" style={{maxWidth: "70%", marginTop: 10, marginLeft: 80, border: '0.5px solid black'}}></img>
+            </div>
+            <div>
+                <img src = {use2} alt = "IMG" style={{maxWidth: "70%", marginTop: 10, marginLeft: 80, border: '0.5px solid black'}}></img>
+            </div>
             <Title level = {2} >Try!</Title>
             <div style={{display: "flex", paddingLeft: 80, alignItems: "center", marginBottom: 20}} >
                 <Title level = {4}>Assign K : K =</Title>

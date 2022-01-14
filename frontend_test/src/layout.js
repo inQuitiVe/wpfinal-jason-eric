@@ -84,7 +84,7 @@ function Applayout (){
 
     return (
     <Router>
-      <AppBar position="static" /*style={{float: true}}*/>
+      <AppBar position="static" color='primary' style={{color: 'secondary'}}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Typography
