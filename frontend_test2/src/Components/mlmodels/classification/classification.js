@@ -2,11 +2,15 @@ import "antd/dist/antd.css"
 import { useState,useEffect } from 'react';
 import {Typography,Button,Divider} from 'antd'
 import dataimg from "./data.png"
-import Img_upload from "../img_upload";
+import ImgUpload from "../img_upload";
 import { Select } from 'antd';
 import Classlist from "./classlist"
 import * as mobileNet from "@tensorflow-models/mobilenet"
 import * as tf from "@tensorflow/tfjs";
+import {
+    CREATE_FILE_MUTATION,
+  } from "../../../graphql";
+
 const { Option } = Select;
 const {Title, Text} = Typography
 
@@ -75,7 +79,7 @@ function Classification(props){
                 <Title level = {4}>predictions. (Return the class names with the largest {topclass} likelihood.)</Title>
             </div>
             <div style={{paddingLeft: 80, display: "flex", alignItems: "center"}}>
-                <Img_upload modelready={modelready} Predict={Predict}/>
+                <ImgUpload modelready={modelready} Predict={Predict}/>
             </div>
             <Classlist result={result} selectedRowKeys={selectedRowKeys} setSelectedrowkeys={setSelectedrowkeys}/>
         </div>

@@ -15,7 +15,7 @@ import Mutation from "./backend/resolvers/Mutation.js";
 import Subscription from "./backend/resolvers/Subscription.js";
 import mongo from "./backend/mongo.js";
 import apiRoute from "./backend/route/api.js";
-import wakeUpDyno from "./backend/route/wakeUpDyno.js";
+
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const port = process.env.PORT || 80;
@@ -27,6 +27,7 @@ const app = express();
 app.use(cors());
 app.use("/api", apiRoute);
 app.use(bodyParser.json());
+
 app.use(express.static(path.join(__dirname, "build")));
 app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname, "build", "index.html"));
@@ -52,8 +53,6 @@ server.installSubscriptionHandlers(httpServer);
 mongo.connect();
 
 httpServer.listen(port, () => {
-  const DYNO_URL= "https://wpfinal-eric-jason.herokuapp.com";
-  wakeUpDyno(DYNO_URL);
   console.log(`🚀 Server Ready at ${port}! 🚀`);
   console.log(`Graphql Port at ${port}${server.subscriptionsPath}`);
 });
