@@ -7,11 +7,11 @@ import { Upload,Button,message } from 'antd';
 // import * as drawing_utils from '@mediapipe/drawing_utils/drawing_utils'
 // import ImgCrop from 'antd-img-crop';
 import * as tf from '@tensorflow/tfjs'
-import * as handpose from '@tensorflow-models/handpose'
+import * as facemesh from '@tensorflow-models/facemesh'
 // import Webcam from 'react-webcam'
-import {drawHand} from '../utilities'
+import {drawFace} from '../utilities'
 
-const MphUpload = (props) => {
+const MpfUpload = (props) => {
 
     // const videoElement = document.getElementsById('input_video')[0];
     const imgElement = useRef();
@@ -21,7 +21,7 @@ const MphUpload = (props) => {
     const [modelready, setModelready] = useState(false)
     async function loadModel() {
         try {
-          const model = await handpose.load();
+          const model = await facemesh.load();
           setModel(model);
           setModelready(true)
           console.log("setloadedModel");
@@ -62,10 +62,10 @@ const MphUpload = (props) => {
             canvasElement.current.height+500
             );
         ctx.drawImage(targetImg,0,0,naturalwidth,naturalheight,0,0,imgwidth,imgheight)
-        const result = await model.estimateHands(targetCanvas)
+        const result = await model.estimateFaces(targetCanvas)
         // ctx.drawImage(video, 0, 0, video.width, video.height);
         // console.log(ctx)
-        drawHand(result, ctx,640)
+        drawFace(result, ctx,640)
     }
 
     const [imgsrc, setImgsrc] = useState("")
@@ -107,4 +107,4 @@ const MphUpload = (props) => {
         <canvas className='output' width= {400} height={300} ref={canvasElement} style={{marginTop: 30}}></canvas></>
     );
 };
-export default MphUpload
+export default MpfUpload

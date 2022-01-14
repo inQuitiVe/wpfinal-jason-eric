@@ -5,11 +5,11 @@ import { Button,message } from 'antd';
 // import * as mphands from '@mediapipe/hands/hands'
 // import * as drawing_utils from '@mediapipe/drawing_utils/drawing_utils'
 import * as tf from '@tensorflow/tfjs'
-import * as handpose from '@tensorflow-models/handpose'
+import * as facemesh from '@tensorflow-models/facemesh'
 import Webcam from 'react-webcam'
-import {drawHand} from '../utilities'
+import {drawFace} from '../utilities'
 
-const MphCamera = (props) => {
+const MpfCamera = (props) => {
     const webcamRef = useRef(null)
     const canvasRef = useRef(null)
     const [intervalId,setIntervalId] = useState(0)
@@ -18,7 +18,7 @@ const MphCamera = (props) => {
     const [modelready, setModelready] = useState(false)
     async function loadModel() {
         try {
-          const model = await handpose.load();
+          const model = await facemesh.load();
           setModel(model);
           setModelready(true)
           console.log("setloadedModel");
@@ -58,7 +58,7 @@ const MphCamera = (props) => {
     const detectPose=async(video)=>{
         if(webcamRef.current && webcamRef.current.video.readyState===4){
             // console.log(video.width,video.height)
-            const result = await model.estimateHands(video)
+            const result = await model.estimateFaces(video)
             // console.log(result)
             const ctx = canvasRef.current.getContext('2d')
             ctx.clearRect(
@@ -69,7 +69,7 @@ const MphCamera = (props) => {
               );
             // ctx.drawImage(video, 0, 0, video.width, video.height);
             // console.log(ctx)
-            drawHand(result, ctx,video.width)
+            drawFace(result, ctx,video.width)
         }
     }
 
@@ -80,7 +80,6 @@ const MphCamera = (props) => {
             <div style={{ position: 'absolute',zIndex: "999" }}>
             <canvas
               ref={canvasRef}
-              id="myCanvas"
             //   width={videoWidth}
             //   height={videoHeight}
               style={{ backgroundColor: "transparent" ,width: 400 ,height: 300}}
@@ -89,7 +88,6 @@ const MphCamera = (props) => {
           <div /*style={{ position: "absolute" }}*/>
             <Webcam
               audio={false}
-              id="img"
               ref={webcamRef}
               width= {400}
               height={300}
@@ -106,4 +104,4 @@ const MphCamera = (props) => {
         </div>
     );
 };
-export default MphCamera
+export default MpfCamera

@@ -35,6 +35,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Logo from './logo.png';
 import HandPose from './Components/mlmodels/mphand/mphand';
+import BodyPose from './Components/mlmodels/mpbody/mpbody';
+import FaceMesh from './Components/mlmodels/mpface/mpface';
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -206,6 +208,12 @@ function Applayout (){
               <Menu.Item key="9">
                 <Link to = "/handposedetection">Hand Pose Detection</Link>
               </Menu.Item>
+              <Menu.Item key="10">
+                <Link to = "/bodyposeestimation">Body Pose Estimation</Link>
+              </Menu.Item>
+              <Menu.Item key="11">
+                <Link to = "/facemesh">Face Mesh</Link>
+              </Menu.Item>
             </SubMenu>
             {/* <Menu.Item key="9" icon={<FileOutlined />}>
               <Link to = "/Files">Files</Link>
@@ -229,6 +237,8 @@ function Applayout (){
             <Route path="/classification" element={<Classification/>}></Route>
             <Route path="/transfer" element={<TransferKnn/>}></Route>
             <Route path="/handposedetection" element={<HandPose/>}></Route>
+            <Route path="/bodyposeestimation" element={<BodyPose/>}></Route>
+            <Route path="/facemesh" element={<FaceMesh/>}></Route>
           </Routes>
         
       </Layout>
