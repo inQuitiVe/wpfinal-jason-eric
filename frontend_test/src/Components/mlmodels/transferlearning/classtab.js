@@ -68,7 +68,7 @@ function ClassTab(props){
           </TabPane>
         </Tabs>
         <div style={{display: "flex", flexDirection: "row"}}>
-            <video autoPlay playsInline muted id="webcam1" width="224" height="224"></video>
+            <video autoPlay playsInline muted id="webcam1" width="400" height="300"></video>
             {props.currentclass==='4'?
             <div style={{display: "flex", flexDirection: "column", justifyContent: "center", marginLeft: 20}}>
                 <Button type="primary" onClick={Handlestart}>{props.intervalId?'Stop':"Start"}</Button>
