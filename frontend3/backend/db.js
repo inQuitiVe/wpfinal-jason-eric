@@ -7,22 +7,14 @@ const User = mongoose.model(
     username: String,
     email: String,
     password: String,
-    status: {
-      type: String, 
-      enum: ['Pending', 'Active'],
-      default: 'Pending'
-    },
-    confirmationCode: { 
-      type: String, 
-      unique: true },
-    task: [mongoose.Schema.Types.ObjectId], 
+    task: [{type:mongoose.Schema.Types.ObjectId,ref:"usertask"}], 
   })
 );
 
 const Task = mongoose.model(
   "Task",
   new mongoose.Schema({
-    id : mongoose.Schema.Types.ObjectId,
+    id : {type:mongoose.Schema.Types.ObjectId,ref:"Task"},
     class : String,
     num : Number,
     image : [String],

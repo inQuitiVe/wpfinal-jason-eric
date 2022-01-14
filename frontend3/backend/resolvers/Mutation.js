@@ -38,6 +38,14 @@ const Mutation = {
     const target = db.Task.findOneAndDelete({id:args.id})
     return target.id
   },
+  async registerUser(parent, args, { db, pubsub }, info) {
+    const repeatname = await db.User.findOne({username:args.username})
+    const repeatmail = await db.User.findOne({email:args.email})
+    if(repeatname.username||repeatmail.email) {
+      throw new Error("repeated");
+    }
+    else return new db.User({username:args.username,email:args.email,password:args.password}).save();
+  }
 };
 
 export default Mutation;

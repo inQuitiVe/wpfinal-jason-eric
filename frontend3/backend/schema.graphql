@@ -12,17 +12,20 @@ type Task {
 type User {
     id : ID!
     task : [Task!]
-    name : String!
+    username : String!
+    email : String!
+    password : String!
 }
 
 
 type Query {
-    getUserFile(name : String!, class : String!,): [Task!] 
+    logInUser(username: String!, password: String!): User!
 }
 
 type Mutation {
     createFile(user : String!, class : String!, num : Int!, image: Upload!, text : [String!], prob:[Float!]) : Task!
     deleteFile(id : ID!) : ID!
+    registerUser(username: String!, email: String!, password: String!) : User!
 }
 
 
