@@ -80,7 +80,7 @@ const ResponsiveAppBar = () => {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography textalign="center">{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -130,7 +130,7 @@ const ResponsiveAppBar = () => {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                  <Typography textalign="center">{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>

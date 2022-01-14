@@ -67,7 +67,7 @@ function Applayout (){
     };
 
     const logOut = () =>{
-
+      setuser(undefined)
     }
 
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -88,7 +88,9 @@ function Applayout (){
       setAnchorElUser(null);
     };
 
-
+    const changeuser = (user) => {
+      setuser(user)
+    };
 
     return (
     <Router>
@@ -136,7 +138,7 @@ function Applayout (){
               >
             {currentuser ? (
                     <div>
-                      <Link to = '/' textAlign="center"><Button
+                      <Link to = '/' textalign="center"><Button
                         key="Models"
                         onClick={handleCloseNavMenu}
                         sx={{ my: 2, color: 'white', display: 'block' }}
@@ -144,7 +146,7 @@ function Applayout (){
                         Models
                         </Button>
                       </Link>
-                      <Link to = '/Files' textAlign="center"><Button
+                      <Link to = '/Files' textalign="center"><Button
                         key="Models"
                         onClick={handleCloseNavMenu}
                         sx={{ my: 2, color: 'white', display: 'block' }}
@@ -155,7 +157,7 @@ function Applayout (){
                     </div>
                   ) : (
                     <div>
-                      <Link to = '/' textAlign="center"><Button
+                      <Link to = '/' textalign="center"><Button
                         key="Models"
                         onClick={handleCloseNavMenu}
                         sx={{ my: 2, color: 'white', display: 'block' }}
@@ -178,8 +180,8 @@ function Applayout (){
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {currentuser ? (
-                    <div>
-                      <Link to = '/' textAlign="center"><Button
+                    <>
+                      <Link to = '/' textalign="center"><Button
                         key="Models"
                         onClick={handleCloseNavMenu}
                         sx={{ my: 2, color: 'white', display: 'block' }}
@@ -187,7 +189,7 @@ function Applayout (){
                         Models
                         </Button>
                       </Link>
-                      <Link to = '/Files' textAlign="center"><Button
+                      <Link to = '/Files' textalign="center"><Button
                         key="Models"
                         onClick={handleCloseNavMenu}
                         sx={{ my: 2, color: 'white', display: 'block' }}
@@ -195,10 +197,10 @@ function Applayout (){
                         Files
                         </Button>
                       </Link>
-                    </div>
+                    </>
                   ) : (
-                    <div>
-                      <Link to = '/' textAlign="center"><Button
+                    <>
+                      <Link to = '/' textalign="center"><Button
                         key="Models"
                         onClick={handleCloseNavMenu}
                         sx={{ my: 2, color: 'white', display: 'block' }}
@@ -206,10 +208,8 @@ function Applayout (){
                         Models
                         </Button>
                       </Link>
-                    </div>
+                    </>
                   )}
-              
-
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
@@ -239,7 +239,7 @@ function Applayout (){
                       <MenuItem key="/profile" onClick={handleCloseNavMenu}>
                             {currentuser.username}
                       </MenuItem>
-                      <MenuItem key="/logout" onClick={handleCloseNavMenu}>
+                      <MenuItem key="/logout" onClick={()=>{handleCloseNavMenu();logOut();}}>
                         <Link to={"/login"} className="nav-link">
                             Logout
                         </Link>
@@ -318,8 +318,8 @@ function Applayout (){
             <Route path="/handposedetection" element={<HandPose/>}></Route>
             <Route path="/bodyposeestimation" element={<BodyPose/>}></Route>
             <Route path="/facemesh" element={<FaceMesh/>}></Route>
-            <Route path="/login" element={<Login/>}></Route>
-            <Route path="/register" element={<Register/>}></Route>
+            <Route path="/login" element={<Login changeuser={changeuser}/>}></Route>
+            <Route path="/register" element={<Register changeuser={changeuser}/>}></Route>
             <Route path="/file" element={<File/>}></Route>
           </Routes>
         

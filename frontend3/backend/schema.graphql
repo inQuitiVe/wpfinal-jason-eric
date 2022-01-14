@@ -19,13 +19,15 @@ type User {
 
 
 type Query {
-    logInUser(username: String!, password: String!): User!
+    getUserFile(username : String!, class : String!,): [Task!] 
+    
 }
 
 type Mutation {
     createFile(user : String!, class : String!, num : Int!, image: Upload!, text : [String!], prob:[Float!]) : Task!
     deleteFile(id : ID!) : ID!
     registerUser(username: String!, email: String!, password: String!) : User!
+    logInUser(username: String!, password: String!): User!
 }
 
 

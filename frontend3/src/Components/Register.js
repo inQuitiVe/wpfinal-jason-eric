@@ -4,7 +4,8 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 
-
+import { useMutation } from "@apollo/client";
+import { REGISTER_USER_MUTATION } from "../graphql";
 
 const required = (value) => {
   if (!value) {
@@ -49,6 +50,8 @@ const vpassword = (value) => {
 const Register = (props) => {
   const form = useRef();
   const checkBtn = useRef();
+  const setuser = props.changeuser;
+  const [RegisterUser] = useMutation(REGISTER_USER_MUTATION);
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -71,8 +74,19 @@ const Register = (props) => {
     setPassword(password);
   };
 
-  const handleRegister = (e) => {
+  
+
+  const handleRegister = async() => {
+    const user = RegisterUser({
+      variables:{
+        username:username,
+        email:email,
+        password:password}
+      }) 
     
+    alert("++++++++in++++++++++");
+    if(user) alert(user.username)
+    setuser(user.username);
   };
 
   return (
@@ -124,7 +138,7 @@ const Register = (props) => {
               </div>
 
               <div className="form-group">
-                <button className="btn btn-primary btn-block">Sign Up</button>
+                <button className="btn btn-primary btn-block" onClick={handleRegister}>Sign Up</button>
               </div>
             </div>
           )}

@@ -1,10 +1,13 @@
 const Query = {
-    async logInUser(parent, args, { db }, info) {
-        const user = await db.User.findOne({username:args.username})
-        if (!user) throw new Error("username not found")
-        else if (user.password !== args.password) throw new Error("password error");
-        return user
+    async getUserFile(parent, args, { db }, info) {
+        let result = [];
+        const user = await db.User.find({username:args.name})
+        result = user.map(async(task) => {
+            return await db.Task.find({id:task.id,class:args.class})
+        })
+        return result
     },
+
 }
 
 export default Query;

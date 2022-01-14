@@ -3,6 +3,8 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useMutation } from "@apollo/client";
+import { LOG_IN_USER } from "../graphql";
 
 const required = (value) => {
   if (!value) {
@@ -17,11 +19,13 @@ const required = (value) => {
 const Login = (props) => {
   const form = useRef();
   const checkBtn = useRef();
+  const setuser = props.changeuser;
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [LogInUser] = useMutation(LOG_IN_USER);
 
   const onChangeUsername = (e) => {
     const username = e.target.value;
@@ -34,7 +38,15 @@ const Login = (props) => {
   };
 
   const handleLogin = () => {
+    const user = LogInUser({
+      variables:{
+        username:username,
+        password:password}
+      }) 
     
+    alert("++++++++in++++++++++");
+    if(user) alert(user.username)
+    setuser(user.username);
   };
 
   return (
