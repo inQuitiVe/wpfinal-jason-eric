@@ -88,9 +88,6 @@ function Applayout (){
       setAnchorElUser(null);
     };
 
-    const changeuser = (user) => {
-      setuser(user)
-    };
 
     return (
     <Router>
@@ -105,6 +102,7 @@ function Applayout (){
               sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
             >
               <img src = {Logo} alt='LOGOO' style={{width:50}}></img>
+              
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -318,8 +316,8 @@ function Applayout (){
             <Route path="/handposedetection" element={<HandPose/>}></Route>
             <Route path="/bodyposeestimation" element={<BodyPose/>}></Route>
             <Route path="/facemesh" element={<FaceMesh/>}></Route>
-            <Route path="/login" element={<Login changeuser={changeuser}/>}></Route>
-            <Route path="/register" element={<Register changeuser={changeuser}/>}></Route>
+            <Route path="/login" element={<Login changeuser={setuser}/>}></Route>
+            <Route path="/register" element={<Register changeuser={setuser}/>}></Route>
             <Route path="/file" element={<File/>}></Route>
           </Routes>
         

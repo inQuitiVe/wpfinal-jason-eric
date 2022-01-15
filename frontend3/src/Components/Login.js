@@ -37,16 +37,20 @@ const Login = (props) => {
     setPassword(password);
   };
 
-  const handleLogin = () => {
-    const user = LogInUser({
+  const handleLogin = async() => {
+    console.log("++++++++in++++++++++");
+    alert(username)
+    alert(password)
+    LogInUser({
       variables:{
         username:username,
         password:password}
       }) 
     
-    alert("++++++++in++++++++++");
-    if(user) alert(user.username)
-    setuser(user.username);
+    // alert("++++++++out++++++++++");
+    // if(user) alert(user.username)
+    //setMessage("apple")
+    setuser("aaa");
   };
 
   return (
@@ -72,7 +76,7 @@ const Login = (props) => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">{message}</label>
             <Input
               type="password"
               className="form-control"

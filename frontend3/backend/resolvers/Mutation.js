@@ -41,16 +41,21 @@ const Mutation = {
   },
 
   async registerUser(parent, args, { db, pubsub }, info) {
-    console.log("+++++++++++++++++in+++++++++++++");
+    console.log(args);
     const repeatname = await db.User.findOne({username:args.username})
     const repeatmail = await db.User.findOne({email:args.email})
-    if(repeatname.username||repeatmail.email) {
+    //db.User.dropIndexes()
+    //console.log(db.User.getIndexes())
+    if(repeatname||repeatmail) {
+      console.log("repeated");
       throw new Error("repeated");
     }
     else return await new db.User({username:args.username,email:args.email,password:args.password}).save();
   },
   async logInUser(parent, args, { db }, info) {
+    console.log("++++++++++++++++++++++");
     const user = await db.User.findOne({username:args.username})
+    console.log(user);
     if (!user) throw new Error("username not found")
     else if (user.password !== args.password) throw new Error("password error");
     return user

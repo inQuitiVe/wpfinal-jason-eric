@@ -38,9 +38,8 @@ export const REGISTER_USER_MUTATION= gql`
 
 export const LOG_IN_USER = gql`
   mutation LogInUser($username: String!, $password: String!,) {
-    getUserFile(usernamename: $usernamename, password: $password) {
+    logInUser(username: $username, password: $password) {
       id
-      task
       username
       email
       password 
@@ -48,3 +47,10 @@ export const LOG_IN_USER = gql`
   }
 `;
 
+export const TEST = gql`
+  mutation Test($a:String!){
+    test(a:$a){
+      a
+    }
+  }
+`;

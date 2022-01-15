@@ -77,15 +77,17 @@ const Register = (props) => {
   
 
   const handleRegister = async() => {
-    const user = RegisterUser({
+    //alert("++++++++in++++++++++");
+    const user = await RegisterUser({
       variables:{
         username:username,
         email:email,
         password:password}
       }) 
     
-    alert("++++++++in++++++++++");
-    if(user) alert(user.username)
+    console.log("++++++++out++++++++++");
+    console.log(user);
+    //alert(user.email);
     setuser(user.username);
   };
 
@@ -138,7 +140,7 @@ const Register = (props) => {
               </div>
 
               <div className="form-group">
-                <button className="btn btn-primary btn-block" onClick={handleRegister}>Sign Up</button>
+                <button className="btn btn-primary btn-block" >Sign Up</button>
               </div>
             </div>
           )}
