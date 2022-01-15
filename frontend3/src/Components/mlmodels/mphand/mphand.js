@@ -11,7 +11,7 @@ const { Option } = Select;
 const {Title, Text} = Typography
 
 function HandPose(props){
-
+    const user = props.user;
     const [method, setMethod] = useState("1")
     const Changemethod = (value)=>{
         setMethod(value)
@@ -37,7 +37,7 @@ function HandPose(props){
                 </Select>
             </div>
             <div>
-                {method === '1'?<MphUpload></MphUpload>:<MphCamera></MphCamera>}
+                {method === '1'?<MphUpload user={user}></MphUpload>:<MphCamera></MphCamera>}
             </div>
         </div>
     )

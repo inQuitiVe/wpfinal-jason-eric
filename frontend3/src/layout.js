@@ -91,7 +91,7 @@ function Applayout (){
 
     return (
     <Router>
-      
+      {!currentuser?<div style={{border: "2px solid #1890ff", borderRadius: '10px',marginLeft: "25%",marginRight: "25%",marginTop: 100,paddingRight: "10%",paddingTop: 30}}><Login setuser={setuser}></Login></div>:<>
       <AppBar position="static" color='primary' style={{color: 'secondary'}}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -232,32 +232,16 @@ function Applayout (){
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {currentuser ? (
                     <div>
                       <MenuItem key="/profile" onClick={handleCloseNavMenu}>
                             {currentuser.username}
                       </MenuItem>
-                      <MenuItem key="/logout" onClick={()=>{handleCloseNavMenu();logOut();}}>
-                        <Link to={"/login"} className="nav-link">
+                      <MenuItem key="/logout" onClick={()=>{handleCloseUserMenu();logOut();}}>
+                        <Link to={"/"} className="nav-link">
                             Logout
                         </Link>
                       </MenuItem>
                     </div>
-                  ) : (
-                    <div>
-                    <MenuItem key="/login" onClick={handleCloseNavMenu}>
-                        <Link to={"/login"} className="nav-link">
-                          Login
-                        </Link>
-                    </MenuItem>
-
-                    <MenuItem key="/register" onClick={handleCloseNavMenu}>
-                        <Link to={"/register"} className="nav-link">
-                          Register
-                        </Link>
-                    </MenuItem>
-                    </div>
-                  )}
               </MenuMui>
             </Box>
           </Toolbar>
@@ -269,9 +253,6 @@ function Applayout (){
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
             <Menu.Item key="1" icon={<PieChartOutlined />}>
               <Link to = "/">Overview</Link>
-            </Menu.Item>
-            <Menu.Item key="2" icon={<DesktopOutlined />}>
-              <Link to = "/QuickStart">Quick Start</Link>
             </Menu.Item>
             <SubMenu key="sub2" icon={<RocketOutlined />} title="Models">
               <Menu.Item key="6">
@@ -308,20 +289,22 @@ function Applayout (){
           </Content>
           {/* <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer> */}
         </Layout>
+        <Routes>
+          <Route path="/" element={<Overview/>}></Route>
+          <Route path="/classification" element={<Classification user={currentuser}/>}></Route>
+          <Route path="/transfer" element={<TransferKnn user={currentuser}/>}></Route>
+          <Route path="/handposedetection" element={<HandPose user={currentuser}/>}></Route>
+          <Route path="/bodyposeestimation" element={<BodyPose user={currentuser}/>}></Route>
+          <Route path="/facemesh" element={<FaceMesh user={currentuser}/>}></Route>
+          {/* <Route path="/login" element={<Login changeuser={setuser}/>}></Route> */}
+          <Route path="/register" element={<Register changeuser={setuser}/>}></Route>
+          <Route path="/file" element={<File user={currentuser}/>}></Route>
+        </Routes>
 
-          <Routes>
-            <Route path="/" element={<Overview/>}></Route>
-            <Route path="/classification" element={<Classification/>}></Route>
-            <Route path="/transfer" element={<TransferKnn/>}></Route>
-            <Route path="/handposedetection" element={<HandPose/>}></Route>
-            <Route path="/bodyposeestimation" element={<BodyPose/>}></Route>
-            <Route path="/facemesh" element={<FaceMesh/>}></Route>
-            <Route path="/login" element={<Login changeuser={setuser}/>}></Route>
-            <Route path="/register" element={<Register changeuser={setuser}/>}></Route>
-            <Route path="/file" element={<File/>}></Route>
-          </Routes>
+          
         
-      </Layout>
+      </Layout></>}
+      
       </Router>
     );
 }

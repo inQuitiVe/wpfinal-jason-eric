@@ -87,7 +87,7 @@ const Register = (props) => {
     
     console.log("++++++++out++++++++++");
     console.log(user);
-    //alert(user.email);
+    alert(user.email);
     setuser(user.username);
   };
 

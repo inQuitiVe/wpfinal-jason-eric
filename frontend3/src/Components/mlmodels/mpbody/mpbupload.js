@@ -10,9 +10,12 @@ import * as tf from '@tensorflow/tfjs'
 import * as posenet from '@tensorflow-models/posenet'
 // import Webcam from 'react-webcam'
 import {drawBody} from '../utilities'
+import { useMutation } from "@apollo/client";
+import { CREATE_FILE_MUTATION } from "../../../graphql";
 
 const MpbUpload = (props) => {
-
+    const user = props.user;
+    const [CreateFile] = useMutation(CREATE_FILE_MUTATION);
     // const videoElement = document.getElementsById('input_video')[0];
     const imgElement = useRef();
     const canvasElement = useRef()
@@ -23,14 +26,25 @@ const MpbUpload = (props) => {
         try {
           const model = await posenet.load();
           setModel(model);
-          setModelready(true)
+          setModelready(true);
           console.log("setloadedModel");
-          message.success("The Body Model is Ready!",1)
+          message.success("The Body Model is Ready!",1);
         } catch (err) {
           console.log(err);
           console.log("failed load model");
           setModelready(false)
         }
+    }
+
+    const uploadresult = async(url) => {
+        CreateFile({
+            variables:{
+                class:"mpbody",
+                num:1,
+                image: [url],
+                user: user,
+            }
+        })
     }
 
     useEffect(() => {
@@ -55,6 +69,8 @@ const MpbUpload = (props) => {
         // // console.log(video.width,video.height)
         
         // console.log('hi2')
+        
+
         const ctx = canvasElement.current.getContext('2d')
         // console.log(ctx)
         ctx.clearRect(
@@ -65,11 +81,15 @@ const MpbUpload = (props) => {
             );
             // console.log(ctx)
         ctx.drawImage(targetImg,0,0,naturalwidth,naturalheight,0,0,imgwidth,imgheight)
+        //console.log("============buffer=================") 
+        //console.log(ctx.canvas.toDataURL());
+        
         // console.log(ctx)
         const result = await model.estimateSinglePose(targetCanvas)
         // ctx.drawImage(video, 0, 0, video.width, video.height);
-        console.log(result)
+        //console.log(result)
         drawBody(result, ctx,640)
+        uploadresult(ctx.canvas.toDataURL());
     }
 
     const [imgsrc, setImgsrc] = useState("")
@@ -99,7 +119,6 @@ const MpbUpload = (props) => {
         <div /*style={{marginRight: 100}}*/>
         {imgsrc ?
         <>
-        
         <img src = {imgsrc} ref={imgElement} style={{maxWidth: 400,maxHeight: 300}}/></>:
         <></>}
         <label htmlFor="file-upload" style={{marginTop: 50,marginBottom: 50,maxWidth: 60, display: "inline-block", padding: "6px 12px", cursor: "pointer"}}>

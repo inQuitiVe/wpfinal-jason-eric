@@ -10,9 +10,12 @@ import * as tf from '@tensorflow/tfjs'
 import * as facemesh from '@tensorflow-models/facemesh'
 // import Webcam from 'react-webcam'
 import {drawFace} from '../utilities'
+import { useMutation } from "@apollo/client";
+import { CREATE_FILE_MUTATION } from "../../../graphql";
 
 const MpfUpload = (props) => {
-
+    const user = props.user;
+    const [CreateFile] = useMutation(CREATE_FILE_MUTATION);
     // const videoElement = document.getElementsById('input_video')[0];
     const imgElement = useRef();
     const canvasElement = useRef()
@@ -31,6 +34,17 @@ const MpfUpload = (props) => {
           console.log("failed load model");
           setModelready(false)
         }
+    }
+
+    const uploadresult = async(url) => {
+        CreateFile({
+            variables:{
+                class:"mpface",
+                num:1,
+                image: [url],
+                user: user,
+            }
+        })
     }
 
     useEffect(() => {
@@ -65,7 +79,9 @@ const MpfUpload = (props) => {
         const result = await model.estimateFaces(targetCanvas)
         // ctx.drawImage(video, 0, 0, video.width, video.height);
         // console.log(ctx)
-        drawFace(result, ctx,640)
+        drawFace(result, ctx,640);
+        console.log(result);
+        uploadresult(ctx.canvas.toDataURL());
     }
 
     const [imgsrc, setImgsrc] = useState("")

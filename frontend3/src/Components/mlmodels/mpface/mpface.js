@@ -11,7 +11,7 @@ const { Option } = Select;
 const {Title, Text} = Typography
 
 function FaceMesh(props){
-
+    const user = props.user;
     const [method, setMethod] = useState("1")
     const Changemethod = (value)=>{
         setMethod(value)
@@ -37,7 +37,7 @@ function FaceMesh(props){
                 </Select>
             </div>
             <div>
-                {method === '1'?<MpfUpload></MpfUpload>:<MpfCamera></MpfCamera>}
+                {method === '1'?<MpfUpload user={user}></MpfUpload>:<MpfCamera></MpfCamera>}
             </div>
         </div>
     )

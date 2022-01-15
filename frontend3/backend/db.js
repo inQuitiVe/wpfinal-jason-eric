@@ -7,19 +7,19 @@ const User = mongoose.model(
     username: String,
     email: String,
     password: String,
-    task: [{type:mongoose.Schema.Types.ObjectId,ref:"usertask"}], 
   })
 );
 
 const Task = mongoose.model(
   "Task",
   new mongoose.Schema({
-    id : {type:mongoose.Schema.Types.ObjectId,ref:"Task"},
     class : String,
     num : Number,
-    image : [String],
-    text : [String],
-    prob : [Number],
+    image: [String],
+    text: [String],
+    prob: [Number],
+    user: String,
+
   })
 )
 

@@ -1,14 +1,15 @@
 import { gql } from "@apollo/client";
 
 export const CREATE_FILE_MUTATION = gql`
-  mutation CreateFile($user: String!, $class: String!, $num:Int!,$image:Upload!,$text:[String!],$prob:[Float!]) {
-    createFile(user: $user, class: $class, num: $num, image:$image,text:$text,prob:$prob) {
+  mutation CreateFile($user:String, $class: String, $num: Int, $image: [String], $text: [String], $prob:[Float]) {
+    createFile(user: $user,class: $class, num: $num, image: $image, text: $text, prob: $prob) {
       id
       class
       num
       image
       text
       prob
+      user
     }
   }
 `;
@@ -28,10 +29,7 @@ export const REGISTER_USER_MUTATION= gql`
       email: $email
       password: $password
     ) {
-      id
-      username
-      email
-      password
+      message
     }
   }
 `;
@@ -40,12 +38,13 @@ export const LOG_IN_USER = gql`
   mutation LogInUser($username: String!, $password: String!,) {
     logInUser(username: $username, password: $password) {
       id
-      username
-      email
-      password 
+      message
     }
   }
 `;
+
+
+
 
 export const TEST = gql`
   mutation Test($a:String!){

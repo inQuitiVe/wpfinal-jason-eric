@@ -10,9 +10,12 @@ import * as tf from '@tensorflow/tfjs'
 import * as handpose from '@tensorflow-models/handpose'
 // import Webcam from 'react-webcam'
 import {drawHand} from '../utilities'
+import { useMutation } from "@apollo/client";
+import { CREATE_FILE_MUTATION } from "../../../graphql";
 
 const MphUpload = (props) => {
-
+    const user = props.user;
+    const [CreateFile] = useMutation(CREATE_FILE_MUTATION);
     // const videoElement = document.getElementsById('input_video')[0];
     const imgElement = useRef();
     const canvasElement = useRef()
@@ -36,6 +39,17 @@ const MphUpload = (props) => {
     useEffect(() => {
         tf.ready().then(() => {loadModel()});
     }, []);
+
+    const uploadresult = async(url) => {
+        CreateFile({
+            variables:{
+                class:"mphand",
+                num:1,
+                image: [url],
+                user: user,
+            }
+        })
+    }
 
     const Predict=async () => {
         message.success({ content: 'Predict!', duration: 1 })
@@ -66,6 +80,7 @@ const MphUpload = (props) => {
         // ctx.drawImage(video, 0, 0, video.width, video.height);
         // console.log(ctx)
         drawHand(result, ctx,640)
+        uploadresult(ctx.canvas.toDataURL());
     }
 
     const [imgsrc, setImgsrc] = useState("")

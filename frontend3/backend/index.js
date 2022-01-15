@@ -24,6 +24,6 @@ const server = new GraphQLServer({
 mongo.connect();
 
 
-server.start(8080, () => {
+server.start({port:8080,bodyParserOptions: { limit: "500mb", type: "application/json" },}, () => {
     console.log(`The server is up on port  8080!`);
 });

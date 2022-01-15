@@ -11,7 +11,7 @@ const { Option } = Select;
 const {Title, Text} = Typography
 
 function BodyPose(props){
-
+    const user = props.user;
     const [method, setMethod] = useState("1")
     const Changemethod = (value)=>{
         setMethod(value)
@@ -37,7 +37,7 @@ function BodyPose(props){
                 </Select>
             </div>
             <div>
-                {method === '1'?<MpbUpload></MpbUpload>:<MpbCamera></MpbCamera>}
+                {method === '1'?<MpbUpload user={user}/>:<MpbCamera></MpbCamera>}
             </div>
         </div>
     )
