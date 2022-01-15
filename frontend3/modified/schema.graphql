@@ -1,0 +1,41 @@
+
+
+type Query {
+    getUserFile(username: String!, class: String!,): [Task!] 
+    
+}
+
+type Mutation {
+    createFile(user: String!, class: String!, num: Int!, image: Upload!, text: [String!], prob:[Float!]) : Task!
+    deleteFile(id: ID!) : ID!
+    registerUser(username: String!, email: String!, password: String!) : Loginmessage!
+    logInUser(username: String!, password: String!): Loginmessage!
+}
+
+scalar Upload
+
+type Loginmessage {
+    id: ID
+    message: String!
+}
+
+type Task {
+    id: ID!
+    class: String!
+    num: Int!
+    image: String!
+    text: [String!]
+    prob: [Float!]
+}
+
+type User {
+    id: ID!
+    task: [Task!]
+    username: String!
+    email: String!
+    password: String!
+}
+
+
+
+
