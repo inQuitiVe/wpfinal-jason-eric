@@ -1,12 +1,12 @@
 import './App.css';
-import AppBar from "./app-bar.js"
-import Applayout from "./layout.js"
+import Applayout from "./containers/layout.js"
 
 function App(){
   return(
-    <div style={{float: true}}>
-    {/* <AppBar/> */}
-    <Applayout/>
+    <div className='demo-wrap' style={{paddingTop: 100}}>
+    <div className='demo-content'>
+      <Applayout />
+    </div>
     </div>
   )}
 
