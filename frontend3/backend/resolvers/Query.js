@@ -1,13 +1,9 @@
 const Query = {
     async getUserFile(parent, args, { db }, info) {
-        let result = [];
-        const user = await db.User.find({username:args.name})
-        result = user.map(async(task) => {
-            return await db.Task.find({id:task.id,class:args.class})
-        })
-        return result
+        const user = await db.Task.find({username:args.username,class:args.class})
+        console.log(user);
+        return user
     },
-
 }
 
 export default Query;

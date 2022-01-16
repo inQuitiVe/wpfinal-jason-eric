@@ -134,37 +134,16 @@ function Applayout (){
                   display: { xs: 'block', md: 'none' },
                 }}
               >
-            {currentuser ? (
-                    <div>
-                      <Link to = '/' textalign="center"><Button
-                        key="Models"
-                        onClick={handleCloseNavMenu}
-                        sx={{ my: 2, color: 'white', display: 'block' }}
-                        >
-                        Models
-                        </Button>
-                      </Link>
-                      <Link to = '/Files' textalign="center"><Button
-                        key="Models"
-                        onClick={handleCloseNavMenu}
-                        sx={{ my: 2, color: 'white', display: 'block' }}
-                        >
-                        Files
-                        </Button>
-                      </Link>
-                    </div>
-                  ) : (
-                    <div>
-                      <Link to = '/' textalign="center"><Button
-                        key="Models"
-                        onClick={handleCloseNavMenu}
-                        sx={{ my: 2, color: 'white', display: 'block' }}
-                        >
-                        Models
-                        </Button>
-                      </Link>
-                    </div>
-                  )}
+              <>
+                <Link to = '/' textalign="center"><Button
+                  key="Models"
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                  >
+                  Models
+                  </Button>
+                </Link>
+              </>
               </MenuMui>
             </Box>
             <Typography
@@ -177,37 +156,18 @@ function Applayout (){
               <img src = {Logo} alt='LOGOO' style={{width:40, maxWidth: "15vw"}}></img>
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {currentuser ? (
-                    <>
-                      <Link to = '/' textalign="center"><Button
-                        key="Models"
-                        onClick={handleCloseNavMenu}
-                        sx={{ my: 2, color: 'white', display: 'block' }}
-                        >
-                        Models
-                        </Button>
-                      </Link>
-                      <Link to = '/Files' textalign="center"><Button
-                        key="Models"
-                        onClick={handleCloseNavMenu}
-                        sx={{ my: 2, color: 'white', display: 'block' }}
-                        >
-                        Files
-                        </Button>
-                      </Link>
-                    </>
-                  ) : (
-                    <>
-                      <Link to = '/' textalign="center"><Button
-                        key="Models"
-                        onClick={handleCloseNavMenu}
-                        sx={{ my: 2, color: 'white', display: 'block' }}
-                        >
-                        Models
-                        </Button>
-                      </Link>
-                    </>
-                  )}
+
+            <>
+              <Link to = '/' textalign="center"><Button
+                key="Models"
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                Models
+                </Button>
+              </Link>
+            </>
+                  
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
@@ -254,6 +214,9 @@ function Applayout (){
             <Menu.Item key="1" icon={<PieChartOutlined />}>
               <Link to = "/">Overview</Link>
             </Menu.Item>
+            <Menu.Item key="2" icon={<FileOutlined />}>
+              <Link to = '/file'>History</Link>
+            </Menu.Item>
             <SubMenu key="sub2" icon={<RocketOutlined />} title="Models">
               <Menu.Item key="6">
                 <Link to = "/classification">
@@ -273,6 +236,7 @@ function Applayout (){
                 <Link to = "/facemesh">Face Mesh</Link>
               </Menu.Item>
             </SubMenu>
+            
             {/* <Menu.Item key="9" icon={<FileOutlined />}>
               <Link to = "/Files">Files</Link>
             </Menu.Item> */}
@@ -291,6 +255,7 @@ function Applayout (){
         </Layout>
         <Routes>
           <Route path="/" element={<Overview/>}></Route>
+          <Route path="/file" element={<File user={currentuser}/>}></Route>
           <Route path="/classification" element={<Classification user={currentuser}/>}></Route>
           <Route path="/transfer" element={<TransferKnn user={currentuser}/>}></Route>
           <Route path="/handposedetection" element={<HandPose user={currentuser}/>}></Route>
@@ -298,7 +263,6 @@ function Applayout (){
           <Route path="/facemesh" element={<FaceMesh user={currentuser}/>}></Route>
           {/* <Route path="/login" element={<Login changeuser={setuser}/>}></Route> */}
           <Route path="/register" element={<Register changeuser={setuser}/>}></Route>
-          <Route path="/file" element={<File user={currentuser}/>}></Route>
         </Routes>
 
           
