@@ -1,7 +1,7 @@
 const Subscription = {
-  people: {
+  taskrenew: {
     subscribe(parent, args, { pubsub }, info) {
-      return pubsub.asyncIterator("PEOPLE");
+      return pubsub.asyncIterator("TASK");
     },
   },
 };

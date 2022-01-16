@@ -43,7 +43,7 @@ const Classlist = (props) => {
             dataSource={props.result}
             pagination={false}
         />
-        <Button type="primary" disabled={handlesave()} >Save Results</Button>
+        <Button type="primary" disabled={handlesave()} onClick={()=>{props.uploadresult();console.log("change");}}>Save Results</Button>
         </div>
     );
 };

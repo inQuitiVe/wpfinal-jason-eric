@@ -1,10 +1,10 @@
 import "antd/dist/antd.css"
 import { useState,useEffect } from 'react';
-import {Typography,Button,Divider} from 'antd'
+import {Typography,Button,Divider,message} from 'antd'
 import dataimg from "./data.png"
-import ImgUpload from "../img_upload";
+import ImgUpload from "./img_upload";
 import { Select } from 'antd';
-import Classlist from "./classlist"
+
 import * as mobileNet from "@tensorflow-models/mobilenet"
 import * as tf from "@tensorflow/tfjs";
 import use1 from './class1-1.png'
@@ -13,45 +13,17 @@ const { Option } = Select;
 const {Title, Text} = Typography
 
 function Classification(props){
-    const [selectedRowKeys,setSelectedrowkeys] = useState([])
+    const user = props.user;
+    
     const [topclass, setTopclass] = useState("3")
+    
     const Selecttopclass = (value)=>{
         setTopclass(value)
     }
-    const [model, setModel] = useState()
-    const [modelready, setModelready] = useState(false)
-    const [result,setResult] = useState([])
-    async function loadModel() {
-        try {
-          const model = await mobileNet.load();
-          setModel(model);
-          setModelready(true)
-          console.log("setloadedModel");
-        } catch (err) {
-          console.log(err);
-          console.log("failed load model");
-          setModelready(false)
-        }
-    }
+    // const [model, setModel] = useState()
+    // const [modelready, setModelready] = useState(false)
+    // const [result,setResult] = useState([])
 
-    useEffect(() => {
-        tf.ready().then(() => {loadModel()});
-    }, []);
-
-    const Predict=async()=>{
-        const predictions = await model.classify(document.getElementById("target_img"),parseInt(topclass,10))
-        // console.log(predictions[0].className)
-        // console.log(predictions[0].probability)
-        let tmp = []
-        for (let i=0;i<predictions.length;i++){
-            // console.log(i)
-            // console.log(tmp)
-            tmp = [...tmp,{key: `${i+1}`,classname: predictions[i].className, probability: predictions[i].probability}]
-        }
-        setResult(tmp)
-        setSelectedrowkeys([])
-        // return {classes: predictions[0].className}
-    }
 
     return(
         <div className="site-layout-background" style={{ padding: 40, minHeight: 360 }}>
@@ -82,10 +54,9 @@ function Classification(props){
                 </Select>
                 <Title level = {4}>predictions. (Return the class names with the largest {topclass} likelihood.)</Title>
             </div>
-            <div style={{paddingLeft: 80, display: "flex", alignItems: "center"}}>
-                <ImgUpload modelready={modelready} Predict={Predict}/>
-            </div>
-            <Classlist result={result} selectedRowKeys={selectedRowKeys} setSelectedrowkeys={setSelectedrowkeys}/>
+            <>
+                <ImgUpload  user={user} topclass={topclass}/>
+            </>
         </div>
     )
 }

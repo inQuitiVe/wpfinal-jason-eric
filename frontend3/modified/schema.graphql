@@ -12,7 +12,6 @@ type Mutation {
     logInUser(username: String!, password: String!): Loginmessage!
 }
 
-scalar Upload
 
 type Loginmessage {
     id: ID

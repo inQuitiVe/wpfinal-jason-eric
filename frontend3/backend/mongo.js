@@ -7,7 +7,6 @@ async function connect() {
   const db = mongoose.connection
   db.once("open", () => {
     console.log("Mongo database connected!");
-    //console.log(db.User);
   });
 }
 

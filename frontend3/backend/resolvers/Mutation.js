@@ -11,6 +11,9 @@ const Mutation = {
     const res = await task.save();
     console.log(task.image);
     console.log(res);
+    pubsub.publish("TASK", {
+      taskrenew: task,
+    });
     return task
   },
 
@@ -22,9 +25,6 @@ const Mutation = {
   async registerUser(parent, args, { db, pubsub }, info) {
     console.log(args);
     const repeatname = await db.User.findOne({username: args.username})
-    // const repeatmail = await db.User.findOne({email: args.email})
-    //db.User.dropIndexes()
-    //console.log(db.User.getIndexes())
     if(repeatname) {
       return {message: "The username has been used before."}
     }
@@ -32,7 +32,6 @@ const Mutation = {
     return {message: "Registered!"}
   },
   async logInUser(parent, args, { db }, info) {
-    console.log("++++++++++++++++++++++");
     const user = await db.User.findOne({username:args.username})
     console.log(user);
     if (!user) return {message: "Username Not Found. Register First."}

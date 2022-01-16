@@ -91,7 +91,8 @@ function Applayout (){
 
     return (
     <Router>
-      {!currentuser?<div style={{border: "2px solid #1890ff", borderRadius: '10px',marginLeft: "25%",marginRight: "25%",marginTop: 100,paddingRight: "10%",paddingTop: 30}}><Login setuser={setuser}></Login></div>:<>
+      {!currentuser?<div style={{border: "2px solid #1890ff", borderRadius: '10px',marginLeft: "25%",marginRight: "25%",marginTop: 100,paddingRight: "10%",paddingTop: 30}}><Link to = "/"><Login setuser={setuser}>
+      </Login></Link></div>:<>
       <AppBar position="static" color='primary' style={{color: 'secondary'}}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -262,7 +263,7 @@ function Applayout (){
           <Route path="/bodyposeestimation" element={<BodyPose user={currentuser}/>}></Route>
           <Route path="/facemesh" element={<FaceMesh user={currentuser}/>}></Route>
           {/* <Route path="/login" element={<Login changeuser={setuser}/>}></Route> */}
-          <Route path="/register" element={<Register changeuser={setuser}/>}></Route>
+          {/* <Route path="/register" element={<Register changeuser={setuser}/>}></Route> */}
         </Routes>
 
           

@@ -1,12 +1,13 @@
 import { gql } from "@apollo/client";
 
-// export const MESSAGE_CREATED_SUBSCRIPTION = gql`
-//   subscription Updatemessage {
-//     updatemessage {
-//       id
-//       sender
-//       body
-//     }
-//   }
-// `;
+export const TASK_RENEW_SUBSCRIPTION = gql`
+  subscription TaskRenew {
+    taskrenew {
+        image
+        class
+        text
+        prob
+    }
+  }
+`;
 
