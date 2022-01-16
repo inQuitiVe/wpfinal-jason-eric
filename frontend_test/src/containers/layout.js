@@ -1,7 +1,7 @@
-import { Layout, Menu, Breadcrumb, Transfer } from 'antd';
+import { Layout, Menu, Breadcrumb, Transfer ,Avatar as Avatar2} from 'antd';
 import {
   BrowserRouter as Router,
-  Routes,
+  Switch,
   Route,
   Link
 } from "react-router-dom";
@@ -16,9 +16,9 @@ import {
 import "antd/dist/antd.css"
 import { useState } from 'react';
 
-import Classification from "./Components/mlmodels/classification/classification";
-import Overview from "./Components/mlmodels/overview/overview";
-import TransferKnn from './Components/mlmodels/transferlearning/transfer';
+import Classification from "../components/mlmodels/classification/classification";
+import Overview from "../components/mlmodels/overview/overview";
+import TransferKnn from '../components/mlmodels/transferlearning/transfer';
 
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
@@ -33,22 +33,26 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import Logo from './logo.png';
-import HandPose from './Components/mlmodels/mphand/mphand';
-import BodyPose from './Components/mlmodels/mpbody/mpbody';
-import FaceMesh from './Components/mlmodels/mpface/mpface';
-
+import Logo from '../logo.png';
+import HandPose from '../components/mlmodels/mphand/mphand';
+import BodyPose from '../components/mlmodels/mpbody/mpbody';
+import FaceMesh from '../components/mlmodels/mpface/mpface';
+import File from '../components/File';
+import Login from './Login';
+// import Register from '../components/Register';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
-const pages = ['Models', 'File'];
-const settings = ['Profile', 'Logout'];
+
+
 
 function Applayout (){
     const [collapsed, setCollapsed] = useState(false)
     //const [mlModel, setMLModel] = useState("classification")
-
+    const [currentuser, setuser] = useState(undefined)
+    //const settings = currentuser ? ['Logout'] : ['Login','Register'];
+    //const pages = currentuser ? ['Models', 'File'] : ['Models'];
     const OnCollapse = (collapsed) => {
         // console.log(collapsed);
         if(collapsed === false){
@@ -61,6 +65,9 @@ function Applayout (){
         }
     };
 
+    const logOut = () =>{
+      setuser(undefined)
+    }
 
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -81,9 +88,9 @@ function Applayout (){
     };
 
 
-
     return (
     <Router>
+      {!currentuser?<div style={{backgroundColor: 'rgba(255,255,255,0.8)',border: "2px solid #1890ff", borderRadius: '10px',marginLeft: "25%",marginRight: "25%",paddingRight: "10%",paddingTop: 30,alignItems: 'center'}}><div style={{textAlign: 'center',fontSize: 60,marginBottom: 20,marginLeft: 20,fontFamily: 'sans-serif'}}>Online ML Models</div><Login setuser={setuser}></Login></div>:<>
       <AppBar position="static" color='primary' style={{color: 'secondary'}}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -94,6 +101,7 @@ function Applayout (){
               sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
             >
               <img src = {Logo} alt='LOGOO' style={{width:50}}></img>
+              
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -125,11 +133,16 @@ function Applayout (){
                   display: { xs: 'block', md: 'none' },
                 }}
               >
-                {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Link to = '/' textAlign="center">{page}</Link>
-                  </MenuItem>
-                ))}
+              <>
+                <Link to = '/' textalign="center"><Button
+                  key="Models"
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                  >
+                  Models
+                  </Button>
+                </Link>
+              </>
               </MenuMui>
             </Box>
             <Typography
@@ -142,22 +155,24 @@ function Applayout (){
               <img src = {Logo} alt='LOGOO' style={{width:40, maxWidth: "15vw"}}></img>
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map((page) => (
-                <Link to = '/' textAlign="center"><Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
+
+            <>
+              <Link to = '/' textalign="center"><Button
+                key="Models"
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block' }}
                 >
-                  {page}
+                Models
                 </Button>
-                </Link>
-              ))}
+              </Link>
+            </>
+                  
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar2 size={40} icon={<UserOutlined />} />
                 </IconButton>
               </Tooltip>
               <MenuMui
@@ -176,11 +191,16 @@ function Applayout (){
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
+                    <div>
+                      <MenuItem key="/profile" onClick={handleCloseNavMenu}>
+                            {currentuser.username}
+                      </MenuItem>
+                      <MenuItem key="/logout" onClick={()=>{handleCloseUserMenu();logOut();}}>
+                        <Link to={"/"} className="nav-link">
+                            Logout
+                        </Link>
+                      </MenuItem>
+                    </div>
               </MenuMui>
             </Box>
           </Toolbar>
@@ -193,8 +213,8 @@ function Applayout (){
             <Menu.Item key="1" icon={<PieChartOutlined />}>
               <Link to = "/">Overview</Link>
             </Menu.Item>
-            <Menu.Item key="2" icon={<DesktopOutlined />}>
-              <Link to = "/QuickStart">Quick Start</Link>
+            <Menu.Item key="2" icon={<FileOutlined />}>
+              <Link to = '/file'>History</Link>
             </Menu.Item>
             <SubMenu key="sub2" icon={<RocketOutlined />} title="Models">
               <Menu.Item key="6">
@@ -215,6 +235,7 @@ function Applayout (){
                 <Link to = "/facemesh">Face Mesh</Link>
               </Menu.Item>
             </SubMenu>
+            
             {/* <Menu.Item key="9" icon={<FileOutlined />}>
               <Link to = "/Files">Files</Link>
             </Menu.Item> */}
@@ -225,23 +246,28 @@ function Applayout (){
           <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>User</Breadcrumb.Item>
-              <Breadcrumb.Item>Bill</Breadcrumb.Item>
+              <Breadcrumb.Item>{currentuser}</Breadcrumb.Item>
             </Breadcrumb>
             {/* <Models mlModel = {mlModel}></Models> */}
           </Content>
           {/* <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer> */}
         </Layout>
+        <Switch>
+          <Route exact path="/" ><Overview/></Route>
+          <Route exact path="/file" ><File user={currentuser}/></Route>
+          <Route exact path="/classification" ><Classification user={currentuser}/></Route>
+          <Route exact path="/transfer" ><TransferKnn user={currentuser}/></Route>
+          <Route exact path="/handposedetection" ><HandPose user={currentuser}/></Route>
+          <Route exact path="/bodyposeestimation" ><BodyPose user={currentuser}/></Route>
+          <Route exact path="/facemesh" ><FaceMesh user={currentuser}/></Route>
+          {/* <Route path="/login" element={<Login changeuser={setuser}/>}></Route> */}
+          {/* <Route path="/register" element={<Register changeuser={setuser}/>}></Route> */}
+        </Switch>
 
-          <Routes>
-            <Route path="/" element={<Overview/>}></Route>
-            <Route path="/classification" element={<Classification/>}></Route>
-            <Route path="/transfer" element={<TransferKnn/>}></Route>
-            <Route path="/handposedetection" element={<HandPose/>}></Route>
-            <Route path="/bodyposeestimation" element={<BodyPose/>}></Route>
-            <Route path="/facemesh" element={<FaceMesh/>}></Route>
-          </Routes>
+          
         
-      </Layout>
+      </Layout></>}
+      
       </Router>
     );
 }

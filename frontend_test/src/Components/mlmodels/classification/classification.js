@@ -54,7 +54,7 @@ function Classification(props){
     }
 
     return(
-        <div className="site-layout-background" style={{ padding: 40, minHeight: 360 }}>
+        <div className="site-layout-background" style={{ paddingLeft: 40,paddingRight: 40,paddingTop: 60, minHeight: 360 }}>
             <Title>Image Classification</Title>
             <Divider/>
             <Title level = {2} >Model<br/>
